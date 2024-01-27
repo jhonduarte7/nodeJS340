@@ -15,7 +15,7 @@ node_modules
 # .DS_Store is only for Mac users
 **/.DS_Store
 
-.gitignore
-package.json
-readme.md
-server.js.
+# Part of W01 request
+README.md
+
+inventory-data.sql
