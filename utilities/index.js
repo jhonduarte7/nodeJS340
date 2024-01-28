@@ -93,5 +93,10 @@ Util.buildInventoryDisplay = async function (info) {
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
+// intentional 500 error
+Util.catchErrors = (err, req, res, next) => {
+  res.redirect('/error');
+};
+
 
 module.exports = Util
