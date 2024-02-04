@@ -287,3 +287,108 @@ figure figcaption {
 }
 
 }
+
+/* Login, Registration and Management Forms */
+.login-container,
+.registration-container,
+#add-classification-form,
+#inventory-form,
+#update-form,
+.update-container,
+#review-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 10px solid #ccc;
+  border-radius: 5px;
+  background-color:#617F7D 
+}
+
+.login-container input[type="email"],
+.login-container input[type="password"],
+.login-container input[type="submit"],
+.registration-container input[type="text"],
+.registration-container input[type="email"],
+.registration-container input[type="password"],
+.registration-container input[type="submit"],
+#add-classification-form input[type="text"],
+#add-classification-form input[type="submit"],
+#inventory-form input,
+#inventory-form select,
+#inventory-form textarea,
+#update-form input,
+#update-form select,
+#update-form textarea,
+#update-account-form input[type="email"],
+#update-account-form input[type="text"],
+#update-password-form input[type="text"],
+#update-password-form input[type="password"],
+#update-password-form input[type="submit"],
+#review-form input,
+#review-form textarea{
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  border: 1px solid #f0ebeb;
+}
+.login-container label,
+.registration-container label,
+#add-classification-form label,
+#inventory-form label,
+#update-form label,
+#update-account-form label,
+#update-password-form label,
+.review-label {
+  font-weight: bold;
+  font-size: 2em;
+  color:#fffdfc
+}
+.login-container input[type="submit"],
+.registration-container input[type="submit"],
+#add-classification-form input[type="submit"],
+#inventory-form button[type="submit"],
+#update-form button[type="submit"],
+#update-password-form input[type="submit"],
+#update-account-form input[type="submit"],
+#review-form input[type="submit"]
+ {
+  background-color:#7E826D;
+  color:#ffffff;
+  cursor: pointer;
+  font-size: 2em;
+  width: 100%;
+}
+.login-container input[type="submit"]:hover,
+.registration-container input[type="submit"]:hover,
+#add-classification-form input[type="submit"]:hover,
+#inventory-form button[type="submit"]:hover,
+#update-form button:not(:disabled):hover,
+#update-password-form input[type="submit"]:hover,
+#update-account-form input[type="submit"]:hover{
+  background-color: #669868;
+}
+button:disabled {
+  opacity: 0.6;
+}
+.login-container .registration-link {
+  text-align: center;
+  color:white;
+  font-size: 18pt;
+}
+.login-container .registration-link a {
+  color:#ddd8fb
+}
+.registration-container input[type="checkbox"] + label {
+  font-size: 20px;
+}
+.password-description,
+.validation-description {
+  margin-top: 5px;
+  font-size: 20px;
+  text-align: center;
+}
+.password-input {
+  margin-bottom: 10px;
+}
+/* END Login and Registration Forms */
