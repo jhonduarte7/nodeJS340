@@ -36,4 +36,155 @@ invCont.buildByInventoryId = async function (req, res) {
 
 }
 
+/* *************************
+ * Build inventory Management
+ * ************************ */
+invCont.buildManagement = async function (req, res) {
+  let nav = await utilities.getNav()
+  const classificationList = await utilities.getClassOptions(class_id = '')
+  res.render("inventory/management", {
+    title: "Inventory Management",
+    nav,
+    errors: null,
+    classificationList,
+  })
+}
+
+
+/* *************************
+ * Process add classification
+ * ************************ */
+invCont.addClassification = async (req, res) => {
+
+  const { classification_name } = req.body;
+
+  const classResult = await invModel.addClassification(classification_name);
+  console.log("result of adding class to DB: ", classResult)
+  if (classResult) {
+   
+    req.flash(
+      "notice",
+      `New classification, ${classification_name}, added.`
+    );
+    let nav = await utilities.getNav();
+    let classificationList = await utilities.getClassOptions(class_id = '')
+    res.render("inventory/management", {
+      title: "Inventory Management",
+      nav,
+      errors:null,
+      classificationList,
+    })
+  } else {
+    console.log("classResult is false, should get some errors")
+    req.flash("notice", "Sorry, there was a problem adding the new classification.");
+    let nav = await utilities.getNav();
+    res.status(501).render("inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+      errors: null,
+      classification_name,
+    });
+  }
+};
+
+
+/* *************************
+ * Process add inventory
+ * ************************ */
+invCont.addNewInventory = async (req, res) => {
+
+  const { 
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color } = req.body;
+
+  const invResult = await invModel.addInventory(
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color
+    );
+
+  console.log("result of adding inventory to DB: ", invResult)
+  if (invResult) {
+   
+    req.flash(
+      "notice",
+      `New inventory, ${inv_make} ${inv_model}, added.`
+    );
+    let nav = await utilities.getNav();
+    let classificationList = await utilities.getClassOptions(class_id = '')
+    res.render("inventory/management", {
+      title: "Inventory Management",
+      nav,
+      errors:null,
+      classificationList
+    })
+  } else {
+    console.log("invResult is false, should get some errors")
+    req.flash("notice", "Sorry, there was a problem adding the new inventory.");
+    let nav = await utilities.getNav();
+    let classifications = await utilities.getClassOptions(classification_id)
+  
+    res.status(501).render("inventory/add-inventory", {
+      title: "Add Inventory",
+      nav,
+      errors: null,
+      classifications,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id,
+    });
+  }
+};
+
+/* *************************
+ * Deliver add classification form view
+ * ************************ */
+invCont.buildAddClassification = async function (req, res) {
+  let nav = await utilities.getNav()
+  console.log("rendering add class view")
+  res.render("inventory/add-classification", {
+    title: "Add Classification",
+    nav,
+    errors: null,
+  })
+}
+
+/* *************************
+ * Deliver add inventory form view
+ * ************************ */
+invCont.buildAddInventory = async function (req, res) {
+  let nav = await utilities.getNav()
+  let classifications = await utilities.getClassOptions(class_id = '')
+  console.log(classifications)
+  res.render("inventory/add-inventory", {
+    title: "Add Inventory",
+    nav,
+    errors: null,
+    classifications,
+  })
+}
+
+
 module.exports = invCont
