@@ -18,12 +18,19 @@ regValidate.registrationRules(),
 regValidate.checkRegData,
 utilities.handleErrors(accountController.registerAccount));
 
+
 // Process the login attempt
 router.post(
-    "/login",
-    (req, res) => {
-      res.status(200).send('login process')
-    }
-  );
+  "/login",
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
+  utilities.handleErrors(accountController.accountLogin)
+)
+
+// Route to account view
+router.get("/", 
+utilities.checkLogin, 
+utilities.handleErrors(accountController.buildAccount))
+
 
 module.exports = router;

@@ -2,6 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const invController = require("../controllers/invController");
 const utilities = require("../utilities/");
+const manValidate = require('../utilities/management-validation')
 
 // Route to inventory management page
 router.get("/", 
@@ -42,6 +43,28 @@ utilities.handleErrors(invController.buildAddClassification));
 router.get("/newinv", 
 utilities.handleErrors(invController.buildAddInventory)) 
 
+// Route to fetch inventory by classification for the inventory management view
+router.get("/getInventory/:classification_id", 
+utilities.handleErrors(invController.getInventoryJSON))
+
+// Route to modify inventory from inventory management view
+router.get("/edit/:inv_id", 
+utilities.handleErrors(invController.buildEditInventory))
+
+// Route to update vehicle info
+router.post("/update/",
+manValidate.newInventoryRules(),
+utilities.handleErrors(invController.updateInventory))
+
+
+// Route to delete inventory item
+router.get("/delete/:inv_id", 
+utilities.handleErrors(invController.buildDeleteView))
+
+// Route to delete inventory
+router.post("/delete/",
+utilities.handleErrors(invController.deleteInventory)
+)
 
 
 module.exports = router;

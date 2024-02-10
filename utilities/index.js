@@ -1,4 +1,6 @@
 const invModel = require("../models/inventory-model")
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 const Util = {}
 
 /* ************************
@@ -113,6 +115,46 @@ Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)
 Util.catchErrors = (err, req, res, next) => {
   res.redirect('/error');
 };
+
+/* ****************************************
+* Middleware to check token validity
+**************************************** */
+Util.checkJWTToken = (req, res, next) => {
+  if (req.cookies.jwt) {
+   jwt.verify(
+    req.cookies.jwt,
+    process.env.ACCESS_TOKEN_SECRET,
+    function (err, accountData) {
+     if (err) {
+      req.flash("Please log in")
+      res.clearCookie("jwt")
+      return res.redirect("/account/login")
+     }
+     res.locals.account_id = accountData.account_id
+     res.locals.accountFirstName = accountData.account_firstname
+     res.locals.accountLastName = accountData.account_lastname
+     res.locals.account_email = accountData.account_email
+     res.locals.account_type = accountData.account_type
+     res.locals.loggedIn = 1
+     next()
+    })
+  } else {
+   next()
+  }
+ }
+
+  /* ****************************************
+ *  Check Login
+ * ************************************ */
+  Util.checkLogin = (req, res, next) => {
+    if (res.locals.loggedIn) {
+      next()
+    } else {
+      req.flash("notice", "Please log in.")
+      return res.redirect("/account/login")
+    }
+   }
+
 
 
 module.exports = Util
