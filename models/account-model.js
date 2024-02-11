@@ -41,9 +41,91 @@ async function getAccountByEmail (account_email) {
   }
 }
 
+/* *****************************
+* Return account data using acount id
+* ***************************** */
+async function getAccountById (account_id) {
+  try {
+    const result = await pool.query(
+      'SELECT account_firstname, account_lastname, account_email FROM account WHERE account_id = $1',
+      [account_id])
+    return result.rows[0]
+  } catch (error) {
+    return new Error("No matching account ID found")
+  }
+}
+
+/* **********************
+ *   Check Email by ID
+ * ********************* */
+async function checkEmailById(account_id, account_email){
+  try {
+    const sql = "SELECT * FROM account WHERE account_id != $1 AND account_email = $2"
+    const email = await pool.query(sql, [account_id, account_email])
+    return email.rowCount
+
+  } catch (error) {
+    return error.message
+  }
+}
+
+/* *****************************
+* Update account info
+* ***************************** */
+async function updateAccount (
+  account_firstname, 
+  account_lastname, 
+  account_email,
+  account_id) {
+  try {
+    const sql = `UPDATE public.account
+  SET account_firstname = $1,
+      account_lastname = $2,
+      account_email = $3
+  WHERE account_id = $4
+  RETURNING *`
+
+const updateAccount = await pool.query(sql, [
+  account_firstname,
+  account_lastname,
+  account_email,
+  account_id
+]);  
+    return updateAccount.rows[0]
+  } catch (error) {
+    return new Error("No matching account ID found")
+  }
+}
+
+/* *****************************
+* Update change password
+* ***************************** */
+async function changePassword (
+  account_id,
+  account_password) {
+  try {
+    const sql = `UPDATE public.account
+  SET account_password = $1
+  WHERE account_id = $2
+  RETURNING *`
+
+const changePassword = await pool.query(sql, [
+  account_password,
+  account_id
+]);  
+    return changePassword.rows[0]
+  } catch (error) {
+    return new Error("No matching account ID found")
+  }
+}
+
   module.exports = {
     registerAccount,
     checkExistingEmail,
-    getAccountByEmail
+    getAccountByEmail,
+    getAccountById,
+    checkEmailById,
+    updateAccount,
+    changePassword
   };
   

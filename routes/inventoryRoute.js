@@ -6,6 +6,8 @@ const manValidate = require('../utilities/management-validation')
 
 // Route to inventory management page
 router.get("/", 
+utilities.checkLogin,
+utilities.checkAccountType,
 utilities.handleErrors(invController.buildManagement));
 
 

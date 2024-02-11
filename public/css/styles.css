@@ -415,3 +415,36 @@ input:required:invalid + p {
 }
 
 /* END Required input validation */
+
+/* Change Box Model */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+.notice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notice li {
+  margin-bottom: 5px;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border: 5px solid #8C6D6B;
+  text-align: center;
+  width: 60%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.notice .notice-message {
+  color: #333;
+  font-weight: bold;
+  word-wrap: break-word;
+}

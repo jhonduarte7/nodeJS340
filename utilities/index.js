@@ -155,6 +155,20 @@ Util.checkJWTToken = (req, res, next) => {
     }
    }
 
+    /* ****************************************
+ *  Check Account Type
+ * ************************************ */
+ Util.checkAccountType = (req, res, next) => {
+  const type = res.locals.account_type
+  if (type == "Admin" || type == "Employee") {
+    next()
+  } else {
+    req.flash("notice", "You are not authorized to view that page.")
+    return res.redirect("/account/login")
+  }
+ }
+
+
 
 
 module.exports = Util
